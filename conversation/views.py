@@ -23,5 +23,11 @@ def new_conversation(request, item_pk):
             conversation_message.created_by = request.user
             conversation_message.save()
             return redirect('item:detail', pk=item_pk)
+    else:
+        form = ConversationMessageForm()
+    return render(request, 'conversation/new.html', {
+        'form': form,
+        'item': item,
+    })
     
     

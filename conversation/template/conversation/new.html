@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block title %}New Conversation{% endblock %}
+
+{% block content %}
+    <h1 class="mb-6 text-3xsation</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}
