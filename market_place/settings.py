@@ -150,6 +150,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none' # Set to 'mandatory' for production if neede
 ACCOUNT_LOGIN_METHODS = {'email', 'username'} # Allow login by email or username
 ACCOUNT_EMAIL_REQUIRED = True
 
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
@@ -166,3 +167,4 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+SOCIALACCOUNT_LOGIN_ON_GET = True
