@@ -3,10 +3,12 @@ from pathlib import Path
 from environ import Env
 
 env = Env()
-env.read_env(BASE_DIR / '.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Read .env file from the base directory
+env.read_env(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
