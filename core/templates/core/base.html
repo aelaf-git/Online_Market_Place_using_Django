@@ -14,6 +14,17 @@
                 <a href="{% url 'item:items' %}" class="text-lg font-medium text-slate-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all duration-300">Browse</a>
 
                 {% if request.user.is_authenticated %}
+                    <div class="flex items-center space-x-3 mr-2 pr-4 border-r border-cyan-900/50">
+                        {% if request.user.profile.image %}
+                            <img src="{{ request.user.profile.image.url }}" alt="Profile" class="w-10 h-10 rounded-full border-[1.5px] border-cyan-400 object-cover shadow-[0_0_10px_rgba(6,182,212,0.4)]">
+                        {% else %}
+                            <div class="w-10 h-10 rounded-full border-[1.5px] border-slate-600 bg-slate-800 flex items-center justify-center text-slate-300 font-bold shadow-inner">
+                                {{ request.user.username|make_list|first|upper }}
+                            </div>
+                        {% endif %}
+                        <span class="text-sm font-bold text-slate-200 tracking-widest uppercase drop-shadow-md">{{ request.user.username }}</span>
+                    </div>
+                    
                     <a href="{% url 'item:new' %}" class="text-lg font-medium text-slate-300 hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all duration-300">New Item</a>
                     <a href="{% url 'conversation:inbox' %}" class="px-5 py-2 text-sm font-semibold border border-purple-500/50 text-purple-400 rounded-md hover:bg-purple-500/10 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all duration-300">Inbox</a>
                     <a href="{% url 'dashboard:index' %}" class="px-5 py-2 text-sm font-semibold border border-cyan-500/50 text-cyan-400 rounded-md hover:bg-cyan-500/10 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all duration-300">Dashboard</a>

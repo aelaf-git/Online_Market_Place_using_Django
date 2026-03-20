@@ -139,6 +139,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Allauth Config
 SITE_ID = 1
 
+ACCOUNT_ADAPTER = 'core.adapter.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'core.adapter.CustomSocialAccountAdapter'
+
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -149,6 +152,8 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_EMAIL_VERIFICATION = 'none' # Set to 'mandatory' for production if needed
 ACCOUNT_LOGIN_METHODS = {'email', 'username'} # Allow login by email or username
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 
 SOCIALACCOUNT_PROVIDERS = {
