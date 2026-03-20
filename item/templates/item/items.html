@@ -3,59 +3,56 @@
 {% block title %}Items{% endblock %}
 
 {% block content %}
-    <div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
-        <div class="col-span-1">
-            <form method="get" action="{% url 'item:items' %}">
-                <input class="w-full py-6 px-6 border rounded" type="text" name="query" placeholder="Search items..." value="{{ query }}">
-                <button class="mt-2 py-4 px-8 text-lg bg-teal-500 text-white rounded-xl" type="submit">Search</button>
+    <div class="pb-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 p-6 bg-slate-900/40 backdrop-blur-xl border border-cyan-900/50 rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.5)] h-fit sticky top-28">
+            <form method="get" action="{% url 'item:items' %}" class="relative">
+                <input class="w-full px-5 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300" type="text" name="query" placeholder="Search parameters..." value="{{ query }}">
+                <button class="w-full mt-4 py-3 px-6 text-sm font-bold tracking-widest uppercase bg-cyan-500 text-slate-900 rounded-xl hover:bg-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:shadow-[0_0_25px_rgba(6,182,212,0.8)] transition-all duration-300" type="submit">EXECUTE QUERY</button>
             </form>
 
-            <hr class="my-6">
+            <hr class="my-8 border-cyan-900/50 relative">
 
-            <p class="font-semibold">Categories</p>
+            <p class="font-bold tracking-widest text-cyan-400 uppercase drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] mb-4">CATEGORIES</p>
 
-            <ul>
+            <ul class="space-y-2">
                 {% for category in categories %}
-                <li class="py-2 px-2 rounded-xl{% if category.id == category_id %} bg-gray-200 text-white{% endif %}"><a href="{% url 'item:items' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a></li>
+                <li class="rounded-xl overflow-hidden transition-all duration-300 {% if category.id == category_id %} bg-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.3)] border border-cyan-500/50 {% else %} hover:bg-slate-800 border border-transparent hover:border-slate-700/50 {% endif %}">
+                    <a class="block py-3 px-4 text-slate-300 {% if category.id == category_id %} text-cyan-400 font-semibold {% endif %} hover:text-cyan-400 transition-colors" href="{% url 'item:items' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+                </li>
                 {% endfor %}
             </ul>
 
-            <hr class="my-6">
+            <hr class="my-8 border-cyan-900/50">
 
-            <p class="font-semibold">Clear filters</p>
+            <p class="font-bold tracking-widest text-purple-400 uppercase drop-shadow-[0_0_5px_rgba(168,85,247,0.5)] mb-4">RESET FILTERS</p>
 
             <ul>
-                <li><a class="mt-2 py-4 px-8 inline-block bg-yellow-500 text-lg rounded-xl text-white" href="{% url 'item:items' %}">Clear</a></li>
+                <li><a class="block w-full text-center py-3 px-8 bg-transparent border border-red-500 text-red-500 text-sm font-bold tracking-widest uppercase rounded-xl hover:bg-red-500 hover:text-white shadow-[0_0_15px_rgba(239,68,68,0.2)] hover:shadow-[0_0_25px_rgba(239,68,68,0.6)] transition-all duration-300" href="{% url 'item:items' %}">CLEAR</a></li>
             </ul>
         </div>
-        <div class="col-span-3">
-            <div class="grid grid-cols-3 gap-3">
-    {% for item in items %}
-    <div>
-      <a href="{% url 'item:detail' item.pk %}">
-        <div>
-          {% if item.image %}
-          <img
-            src="{{ item.image.url }}"
-            alt="{{ item.name }}"
-            class="w-full h-48 object-cover rounded-lg"
-          />
-          {% else %}
-          <div
-            class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg"
-          >
-            <span class="text-gray-500">No image</span>
-          </div>
-          {% endif %}
-        </div>
-        <div class="p-6 bg-white rounded-b-xl">
-          <h3 class="text-lg font-semibold mt-2">{{ item.name }}</h3>
-          <p class="text-gray-500 mt-1">${{ item.price }}</p>
-        </div>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
+        <div class="col-span-1 md:col-span-3">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {% for item in items %}
+                <div class="group relative bg-slate-800/80 rounded-2xl overflow-hidden border border-slate-700 hover:border-cyan-500 transition-all duration-300 hover:shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:-translate-y-2 flex flex-col">
+                    <a href="{% url 'item:detail' item.pk %}" class="flex-grow flex flex-col">
+                        <div class="relative overflow-hidden">
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"/>
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60"></div>
+                            {% else %}
+                                <div class="w-full h-56 bg-slate-800 flex items-center justify-center">
+                                    <span class="text-slate-500 font-light tracking-wider">NO DATA</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="p-6 bg-slate-800/90 backdrop-blur-sm border-t border-slate-700/50 flex-grow flex flex-col justify-between">
+                            <h3 class="text-xl font-bold text-slate-100 group-hover:text-cyan-400 transition-colors drop-shadow-md">{{ item.name }}</h3>
+                            <p class="text-cyan-400 font-semibold mt-2 text-lg drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]">${{ item.price }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

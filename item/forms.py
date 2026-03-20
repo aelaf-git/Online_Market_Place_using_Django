@@ -2,7 +2,7 @@ from django import forms
 
 from .models import Item
 
-INPUT_CLASSES = 'w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500'
+INPUT_CLASSES = 'w-full px-5 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300'
 
 class NewItemForm(forms.ModelForm):
     class Meta:
