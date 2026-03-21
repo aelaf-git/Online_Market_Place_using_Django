@@ -54,3 +54,15 @@ class SignupForm(UserCreationForm):
         'placeholder': 'Confirm Password',
         'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+    
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'w-full px-5 py-3 bg-black border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] transition-colors duration-200',
+    }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'w-full px-5 py-3 bg-black border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] transition-colors duration-200',
+    }))

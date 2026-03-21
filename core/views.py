@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 
 # core/views.py
 from item.models import Category, Item
-from .forms import SignupForm, ProfileForm
+from .forms import SignupForm, ProfileForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # Create your views here.
 
 def index(request):
@@ -43,4 +44,24 @@ def setup_profile(request):
         
     return render(request, 'core/setup_profile.html', {
         'form': form
+    })
+
+@login_required
+def settings(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Your account has been updated!')
+            return redirect('core:settings')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileForm(instance=request.user.profile)
+
+    return render(request, 'core/settings.html', {
+        'u_form': u_form,
+        'p_form': p_form
     })
