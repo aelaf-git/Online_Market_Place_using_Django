@@ -9,26 +9,26 @@ class ProfileForm(forms.ModelForm):
         fields = ('image', 'bio', 'phone_number')
     
     image = forms.ImageField(required=False, widget=forms.FileInput(attrs={
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-cyan-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300',
+        'class': 'w-full px-5 py-3 bg-black border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] transition-colors duration-200',
     }))
     bio = forms.CharField(required=False, widget=forms.Textarea(attrs={
         'placeholder': 'Tell us about yourself...',
         'rows': 3,
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-cyan-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300',
+        'class': 'w-full px-5 py-3 bg-black border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] transition-colors duration-200',
     }))
     phone_number = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Phone Number',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-cyan-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300',
+        'class': 'w-full px-5 py-3 bg-black border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] transition-colors duration-200',
     }))
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Username',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300',
+        'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'password',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300',
+        'placeholder': 'Password',
+        'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
 
 class SignupForm(UserCreationForm):
@@ -40,17 +40,17 @@ class SignupForm(UserCreationForm):
     
     username = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Username',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-purple-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300',
+        'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
         'placeholder': 'Email',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-purple-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300',
+        'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'password',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-purple-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300',
+        'placeholder': 'Password',
+        'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'confirm password',
-        'class': 'w-full px-5 py-3 bg-slate-800/50 border border-purple-600/50 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all duration-300',
+        'placeholder': 'Confirm Password',
+        'class': 'w-full px-5 py-4 bg-black border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200',
     }))
