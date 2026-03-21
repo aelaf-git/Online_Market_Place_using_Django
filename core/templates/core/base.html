@@ -7,12 +7,13 @@
         <script src="https://cdn.tailwindcss.com"></script>
         {% load static %}
         <link rel="icon" type="image/png" href="{% static 'images/logo.png' %}">
-        <title>{% block title %}{% endblock %} | Neo Market</title>
+        <title>AELAF MART</title>
     </head>
     <body class="bg-black text-white font-sans antialiased selection:bg-[#1D9BF0] selection:text-white flex flex-col min-h-screen">
         <nav class="py-3 px-8 flex justify-between items-center border-b border-zinc-800 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-            <a href="/" class="hover:opacity-80 transition-opacity duration-300">
-                <img src="{% static 'images/logo.png' %}" alt="Neo Market Logo" class="h-10 w-auto">
+            <a href="/" class="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-300 group">
+                <img src="{% static 'images/logo.png' %}" alt="AELAF MART Logo" class="h-10 w-auto">
+                <span class="text-xl font-black text-[#1D9BF0] tracking-tighter uppercase italic">AELAF MART</span>
             </a>
             <div class="space-x-8 flex items-center">
                 <a href="{% url 'item:items' %}" class="text-sm font-black text-zinc-400 hover:text-white uppercase tracking-widest transition-colors duration-200">Browse</a>
@@ -50,7 +51,10 @@
 
         <footer class="py-12 px-8 flex justify-between bg-black border-t border-zinc-800 relative mt-auto">
             <div class="w-2/3 pr-10">
-                <img src="{% static 'images/logo.png' %}" alt="Neo Market Logo" class="h-8 w-auto mb-6 opacity-80 hover:opacity-100 transition-opacity duration-300">
+                <div class="flex items-center space-x-3 mb-6 opacity-80 hover:opacity-100 transition-opacity duration-300">
+                    <img src="{% static 'images/logo.png' %}" alt="AELAF MART" class="h-8 w-auto">
+                    <span class="text-lg font-black text-[#1D9BF0] tracking-tighter uppercase italic">AELAF MART</span>
+                </div>
                 <p class="text-zinc-500 leading-relaxed font-medium max-w-sm">Experience the next generation of digital commerce. Secure, fast, and inspired by the modern web.</p>
             </div>
             <div class="w-1/3">
