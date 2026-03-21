@@ -1,6 +1,6 @@
-# Online Marketplace
+# Online Marketplace (Neo Market)
 
-A comprehensive e-commerce platform built with Django and Tailwind CSS that allows users to list items for sale, browse categories, and communicate directly with sellers.
+A high-performance, futuristic e-commerce platform built with Django 6.0 and Tailwind CSS. Neo Market allows users to list items for sale, browse categories with a premium UI, and communicate directly with sellers via a real-time messaging system.
 
 ## Table of Contents
 
@@ -8,133 +8,114 @@ A comprehensive e-commerce platform built with Django and Tailwind CSS that allo
 - [System Architecture](#system-architecture)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
 - [Design Decisions](#design-decisions)
 
 ## Features & Functionalities
 
-### 1. User Authentication & Authorization (`core` app)
+### 1. Advanced Authentication & OAuth (`core` app)
 
-- **Sign Up / Log In:** Secure user registration and login functionality using Django's built-in authentication system.
-- **Access Control:** Protected routes utilizing the `@login_required` decorator to ensure only authenticated users can create items, view their dashboard, or send messages.
+- **Local & Social Login:** Supports standard credentials and **Google OAuth 2.0** integration via `django-allauth`.
+- **Seamless Account Linking:** Automatically connects social login to existing accounts with the same email address.
+- **Access Control:** Fully protected routes ensure only authenticated users can manage items or participate in chats.
 
-### 2. Item Management (`item` app)
+### 2. Modern User Profiles (`core` app)
 
-- **Browse Items:** Public users can view all listed items under the items page.
-- **Item Details:** Detailed view of an individual item, showing its image, price, description, and the seller's information.
-- **CRUD Operations:** Authenticated users can create, edit, and delete their own items dynamically.
-- **Categories:** Items are organized into categories, enabling easier navigation, grouping, and filtering.
+- **Interrupted Setup Flow:** New users are automatically redirected to a profile setup page to provide a profile picture and bio before using the platform.
+- **Dynamic Avatars:** Displays user avatars and usernames in the navigation bar using the `Profile` model.
+- **Automatic Profile Generation:** Uses Django signals to create user profiles instantly upon registration.
 
-### 3. User Dashboard (`dashboard` app)
+### 3. Item Management (`item` app)
 
-- **Personalized View:** A dedicated workspace (`dashboard:index`) for authenticated users to manage all the items they have currently listed for sale. Provides quick navigation to edit or delete operations.
+- **Futuristic Browse Experience:** Categories and items are displayed with vibrant dark-mode aesthetics and hover effects.
+- **Full CRUD:** Sellers can create, edit, and delete their own items with image upload support.
+- **Smart Categorization:** Items are dynamically filtered by categories for intuitive navigation.
 
-### 4. Real-time Messaging & Conversations (`conversation` app)
+### 4. Interactive Messaging (`conversation` app)
 
-- **Direct Communication:** Buyers can initiate a conversation with a seller directly from an item's detail page.
-- **Inbox:** Users have a dedicated inbox (`conversation:inbox`) to track all their active conversations, whether they are buying or selling.
-- **Conversation Threads:** Threaded messaging interface (`conversation:detail`) between the buyer and seller regarding a specific item, automatically ordered by modification date.
+- **Direct Chats:** Buyers can initiate private message threads with sellers instantly from item pages.
+- **Unified Inbox:** A dedicated management interface for all active buying and selling conversations.
 
-### 5. Core Interface
+### 5. Premium UI/UX
 
-- **Responsive Design:** Styled uniformly with Tailwind CSS via CDN for a modern, mobile-friendly interface.
-- **Reusability:** Extends from a modular `base.html` offering consistent layout, global navigation bar, and footer across all apps.
+- **Glassmorphism Design:** Utilizes Tailwind CSS to create a sleek, transparent, and neon-accented interface.
+- **Responsive Layout:** Optimized for all screen sizes with a sticky blur-effect navigation bar.
 
 ## System Architecture
 
-The project strictly follows the standard **Django Model-Template-View (MTV)** architectural pattern:
-
-### Models (Database Representation)
-
-The models define the relational SQLite schema and utilize heavily integrated foreign keys.
+### Models
 
 - **Item App:** `Item`, `Category`
 - **Conversation App:** `Conversation`, `ConversationMessage`
-  The `Conversation` model uses a `ManyToManyField` to link multiple users (buyers/sellers) to a private thread tied to a specific `Item`.
+- **Core App:** `Profile` (One-to-One with User)
 
-### Views (Business Logic)
+### Logic & Views
 
-- Implemented as Python function-based views (FBVs).
-- Business logic is clearly partitioned. For instance, the `conversation` views explicitly verify object ownership and membership (`members__in=[request.user.id]`) before showing threads or messages, ensuring strong data privacy.
-- Uses `get_object_or_404` to maintain application stability on bad requests.
-
-### Templates (Presentation Layer)
-
-- HTML files enriched with the Django Template Language (DTL).
-- Styled using Tailwind CSS utility classes, minimizing the need for custom CSS files.
-
-### Project Structure
-
-```text
-Online_Market_Place/
-├── core/                   # Overarching views (auth, base templates, index, contact)
-├── item/                   # Item and Category models, CRUD views, and templates
-├── dashboard/              # User-specific item management and views
-├── conversation/           # Messaging system (inbox, threads, message models/forms)
-├── market_place/           # Main Django project configuration (settings, urls, wsgi)
-├── media/                  # Location for user-uploaded files (e.g., item images)
-├── manage.py               # Django command-line utility
-└── db.sqlite3              # SQLite database (default)
-```
+- **Function-Based Views (FBVs):** Clean, readable logic for handling requests.
+- **Custom Adapters:** `CustomAccountAdapter` and `CustomSocialAccountAdapter` manage custom redirect logic and profile validation.
+- **Security:** Built-in protection against CSRF, SQL Injection, and XSS.
 
 ## Tech Stack
 
-- **Backend Framework:** Django 4.2+ (Python 3.x)
-- **Frontend Styling:** HTML5, Tailwind CSS
-- **Database:** SQLite3 (Development)
+- **Backend:** Django 6.0.2
+- **Authentication:** django-allauth (w/ SocialAccount)
+- **Styling:** Tailwind CSS (Modern Utility-First)
+- **Environment Management:** django-environ
+- **Database:** SQLite3 (Development) / PostgreSQL (Production ready)
+- **Image Processing:** Pillow
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.8+
-- pip (Python package installer)
+- Python 3.10+
+- pip
 
-### Installation & Setup
+### Installation
 
-1. **Navigate to the project directory:**
+1. **Clone & Navigate:**
 
    ```bash
    cd Online_Market_Place
    ```
 
-2. **Create and activate a virtual environment:**
+2. **Setup Virtual Environment:**
 
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   source venv/bin/activate  # Windows: venv\Scripts\activate
    ```
 
-3. **Install dependencies:**
-   _(Ensure you have Django and Pillow installed for image handling)_
+3. **Install Dependencies:**
 
    ```bash
-   pip install django pillow
+   pip install -r requirements.txt
    ```
 
-4. **Apply database migrations:**
+4. **Setup Environment Variables:**
+   Create a `.env` file in the root directory:
+
+   ```env
+   SECRET_KEY="your-django-secret-key"
+   DEBUG=True
+   GOOGLE_CLIENT_ID="your-google-client-id"
+   GOOGLE_CLIENT_SECRET="your-google-client-secret"
+   ```
+
+5. **Migrations & Superuser:**
 
    ```bash
-   python manage.py makemigrations
    python manage.py migrate
-   ```
-
-5. **Create an admin user (optional):**
-
-   ```bash
    python manage.py createsuperuser
    ```
 
-6. **Run the development server:**
-
+6. **Run Server:**
    ```bash
    python manage.py runserver
    ```
 
-7. **Access the application:**
-   Open your browser and navigate to `http://127.0.0.1:8000/`.
-
 ## Design Decisions
 
-- **Tailwind CSS via CDN:** Chosen for rapid prototyping, keeping the HTML files relatively standalone while maintaining robust styling power without installing Node.js/NPM.
-- **De-coupled Django Apps:** Business logic is compartmentalized. `dashboard` isolates user-specific rendering from general `item` browsing. `conversation` is extracted from items, enabling easier potential future features.
-- **Secure by Default:** Django's built-in User model and session authentication are utilized heavily, paired with CSRF tokens on every form to prevent cross-site request forgery.
+- **Dark-First Modernity:** The UI is designed to look premium, using a palette of Deep Slate, Cyan, and Purple to create a "Cyborg/Cyberpunk" aesthetic.
+- **Zero Hardcoding for Secrets:** All sensitive credentials (API keys, secret keys) are managed via `.env` to prevent accidental exposure.
+- **Extensible Profiles:** The `Profile` model is decoupled from the `User` model to allow for future expansion without modifying the core Auth system.
