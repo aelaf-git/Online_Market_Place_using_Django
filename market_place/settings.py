@@ -153,10 +153,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ACCOUNT_EMAIL_VERIFICATION = 'none' # Set to 'mandatory' for production if needed
-ACCOUNT_LOGIN_METHODS = {'email', 'username'} # Allow login by email or username
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_LOGIN_METHODS = {'email'} # Only allow login by email
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
@@ -186,4 +184,8 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 SOCIALACCOUNT_ADAPTER = 'core.adapter.CustomSocialAccountAdapter'
 ACCOUNT_ADAPTER = 'core.adapter.CustomAccountAdapter'
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@online-marketplace.com'
+
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
