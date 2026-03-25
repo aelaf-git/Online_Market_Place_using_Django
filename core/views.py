@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import EmailVerification
 from django.core.mail import send_mail
+from django.core.files.base import ContentFile
+import base64
 # Create your views here.
 
 def index(request):
@@ -106,7 +108,20 @@ def setup_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
-            form.save()
+            profile = form.save()
+            
+            # Handle cropped image
+            cropped_image = request.POST.get('cropped_image')
+            if cropped_image:
+                try:
+                    format, imgstr = cropped_image.split(';base64,')
+                    ext = format.split('/')[-1]
+                    data = ContentFile(base64.b64decode(imgstr), name=f'{request.user.username}_profile.{ext}')
+                    profile.image = data
+                    profile.save()
+                except Exception as e:
+                    print(f"Error processing cropped image: {e}")
+            
             return redirect('/')
     else:
         form = ProfileForm(instance=profile)
@@ -123,7 +138,20 @@ def settings(request):
         
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
-            p_form.save()
+            profile = p_form.save()
+            
+            # Handle cropped image
+            cropped_image = request.POST.get('cropped_image')
+            if cropped_image:
+                try:
+                    format, imgstr = cropped_image.split(';base64,')
+                    ext = format.split('/')[-1]
+                    data = ContentFile(base64.b64decode(imgstr), name=f'{request.user.username}_profile.{ext}')
+                    profile.image = data
+                    profile.save()
+                except Exception as e:
+                    print(f"Error processing cropped image: {e}")
+                    
             messages.success(request, 'Your account has been updated!')
             return redirect('core:settings')
     else:
