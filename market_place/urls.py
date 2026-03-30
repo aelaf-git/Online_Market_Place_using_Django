@@ -9,6 +9,7 @@ urlpatterns = [
     path('items/', include(('item.urls', 'item'), namespace='item')),
     path('admin/', admin.site.urls),
     path('conversations/', include(('conversation.urls', 'conversation'), namespace='conversation')),
+    path('cart/', include('cart.urls')),
     path('dashboard/', include(('dashboard.urls', 'dashboard'), namespace='dashboard')),
     path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto my-20 px-4 text-center">
+    <div class="mb-10 inline-block p-8 rounded-full bg-green-500/10 border-4 border-green-500/20 shadow-[0_0_50px_rgba(34,197,94,0.1)]">
+        <svg class="w-20 h-20 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+    </div>
+    
+    <h1 class="text-5xl font-black text-white tracking-tight uppercase mb-4">PAYMENT SUCCESSFUL!</h1>
+    <p class="text-zinc-500 text-lg font-medium mb-12">Thank you for your purchase. Your order has been confirmed and we've notified the sellers.</p>
+    
+    <div class="space-y-4">
+        <a href="{% url 'dashboard:index' %}" class="block w-full py-5 bg-white text-black text-lg font-black rounded-full hover:bg-zinc-200 transition-all duration-200 shadow-xl">
+            VIEW MY ORDERS
+        </a>
+        <a href="{% url 'item:items' %}" class="block w-full py-5 bg-zinc-900 text-white text-lg font-black rounded-full hover:bg-zinc-800 transition-all duration-200">
+            CONTINUE SHOPPING
+        </a>
+    </div>
+</div>
+{% endblock %}

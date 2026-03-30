@@ -29,7 +29,11 @@
            <a href="{% url 'item:delete' item.id %}" class="px-8 py-4 text-center text-sm font-black border border-red-900/50 text-red-500 rounded-full hover:bg-red-500/10 transition-all duration-200 active:scale-95">Delete</a>
         </div>    
         {% else %}
-        <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-10 w-full text-center py-4 text-lg font-black bg-[#1D9BF0] text-white rounded-full hover:bg-[#1A8CD8] transition-all duration-200 active:scale-95 shadow-lg">Contact Seller</a>
+            {% if item.is_sold %}
+                <button disabled class="inline-block mt-10 w-full text-center py-4 text-lg font-black bg-zinc-800 text-zinc-500 rounded-full cursor-not-allowed">Sold Out</button>
+            {% else %}
+                <a href="{% url 'cart:add_to_cart' item.id %}" class="inline-block mt-10 w-full text-center py-4 text-lg font-black bg-[#1D9BF0] text-white rounded-full hover:bg-[#1A8CD8] transition-all duration-200 active:scale-95 shadow-lg">Add to Cart</a>
+            {% endif %}
         {% endif %}
     </div>
 </div>

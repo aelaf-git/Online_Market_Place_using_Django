@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Payment Cancelled{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto my-20 px-4 text-center">
+    <div class="mb-10 inline-block p-8 rounded-full bg-red-500/10 border-4 border-red-500/20">
+        <svg class="w-20 h-20 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </div>
+    
+    <h1 class="text-5xl font-black text-white tracking-tight uppercase mb-4">PAYMENT CANCELLED</h1>
+    <p class="text-zinc-500 text-lg font-medium mb-12">Your payment process was cancelled or encountered an error. Don't worry, your items are still in your cart.</p>
+    
+    <div class="space-y-4">
+        <a href="{% url 'cart:view_cart' %}" class="block w-full py-5 bg-[#1D9BF0] text-white text-lg font-black rounded-full hover:bg-[#1A8CD8] transition-all duration-200 shadow-xl">
+            BACK TO CART
+        </a>
+        <a href="{% url 'item:items' %}" class="block w-full py-5 bg-zinc-900 text-white text-lg font-black rounded-full hover:bg-zinc-800 transition-all duration-200">
+            BROWSE MARKETPLACE
+        </a>
+    </div>
+</div>
+{% endblock %}
