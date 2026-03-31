@@ -135,17 +135,30 @@ def handle_checkout_session(session):
         
         # Send message to seller from superuser
         if superuser:
-            # Look for an existing conversation between superuser and seller regarding this item
-            conversation = Conversation.objects.filter(item=cart_item.item).filter(members__id=superuser.id).filter(members__id=cart_item.item.created_by.id).first()
-            
-            if not conversation:
-                conversation = Conversation.objects.create(item=cart_item.item)
-                conversation.members.add(superuser)
-                conversation.members.add(cart_item.item.created_by)
+            # Conversation with Seller
+            seller_conv = Conversation.objects.filter(item=cart_item.item).filter(members__id=superuser.id).filter(members__id=cart_item.item.created_by.id).first()
+            if not seller_conv:
+                seller_conv = Conversation.objects.create(item=cart_item.item)
+                seller_conv.members.add(superuser)
+                seller_conv.members.add(cart_item.item.created_by)
             
             ConversationMessage.objects.create(
-                conversation=conversation,
+                conversation=seller_conv,
                 content=f"Congratulations! Your item '{cart_item.item.name}' has been sold for ${cart_item.item.price}. Please check your dashboard for details and prepare the item for delivery.",
+                created_by=superuser
+            )
+
+            # Conversation with Buyer
+            buyer = User.objects.get(id=user_id)
+            buyer_conv = Conversation.objects.filter(item=cart_item.item).filter(members__id=superuser.id).filter(members__id=buyer.id).first()
+            if not buyer_conv:
+                buyer_conv = Conversation.objects.create(item=cart_item.item)
+                buyer_conv.members.add(superuser)
+                buyer_conv.members.add(buyer)
+            
+            ConversationMessage.objects.create(
+                conversation=buyer_conv,
+                content=f"Thank you for your purchase! You have successfully bought '{cart_item.item.name}' for ${cart_item.item.price}. We have notified the seller and they will prepare your item shortly.",
                 created_by=superuser
             )
         
