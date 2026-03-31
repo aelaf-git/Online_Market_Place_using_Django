@@ -8,6 +8,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def available_item_count(self):
+        return self.item_set.filter(is_sold=False).count()
+
 class Item(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)

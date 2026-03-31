@@ -42,7 +42,7 @@
     <div class="group relative bg-black border-r border-b border-zinc-800 hover:bg-zinc-950 transition-colors duration-200">
       <a href="{% url 'item:items' %}?category={{ category.id }}" class="block p-8 text-center h-full">
           <h3 class="text-xl font-bold text-white group-hover:text-[#1D9BF0] transition-colors">{{ category.name }}</h3>
-          <p class="text-zinc-500 mt-2 text-sm font-bold">{{ category.item_set.count }} <span class="font-normal">listings</span></p>
+          <p class="text-zinc-500 mt-2 text-sm font-bold">{{ category.available_item_count }} <span class="font-normal">listings</span></p>
       </a>
     </div>
     {% endfor %}
