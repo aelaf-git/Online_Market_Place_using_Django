@@ -76,6 +76,13 @@ def create_checkout_session(request):
 
 @login_required
 def success(request):
+    session_id = request.GET.get('session_id')
+    if session_id:
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        session = stripe.checkout.Session.retrieve(session_id)
+        if session.payment_status == 'paid':
+            handle_checkout_session(session)
+            
     return render(request, 'cart/success.html')
 
 @login_required
