@@ -1,6 +1,6 @@
-# Online Marketplace (Neo Market)
+# Online Marketplace (AELAF MART)
 
-A high-performance, futuristic e-commerce platform built with Django 6.0 and Tailwind CSS. Neo Market allows users to list items for sale, browse categories with a premium UI, and communicate directly with sellers via a real-time messaging system.
+A high-performance, futuristic e-commerce platform built with Django 6.0 and Tailwind CSS. AELAF MART allows users to list items for sale, browse categories with a premium UI, and communicate directly with sellers via a real-time messaging system.
 
 ## Table of Contents
 
