@@ -8,7 +8,7 @@ from django.urls import reverse
 from item.models import Item
 from .models import Cart, CartItem, Order
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+# stripe.api_key = settings.STRIPE_SECRET_KEY # Removed from here
 
 @login_required
 def add_to_cart(request, item_id):
@@ -38,6 +38,7 @@ def remove_from_cart(request, item_id):
 
 @login_required
 def create_checkout_session(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     cart = get_object_or_404(Cart, user=request.user)
     cart_items = cart.items.all()
     
@@ -83,6 +84,7 @@ def cancel(request):
 
 @csrf_exempt
 def stripe_webhook(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None
