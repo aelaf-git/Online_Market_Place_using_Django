@@ -3,31 +3,31 @@
 {% block title %}Items{% endblock %}
 
 {% block content %}
-    <div class="pb-12 grid grid-cols-1 md:grid-cols-4 gap-12 mt-8">
-        <div class="col-span-1 p-8 bg-black border border-zinc-800 rounded-3xl h-fit sticky top-28">
+    <div class="pb-12 grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-12 mt-8">
+        <div class="lg:col-span-1 p-6 lg:p-8 bg-black border border-zinc-800 rounded-3xl h-fit lg:sticky lg:top-28">
             <form method="get" action="{% url 'item:items' %}" class="space-y-4">
                 <p class="font-black text-xs uppercase tracking-widest text-zinc-500 mb-4 px-1">Search</p>
                 <input class="w-full px-5 py-4 bg-black border border-zinc-800 rounded-2xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] transition-all duration-200" type="text" name="query" placeholder="Find items..." value="{{ query }}">
                 <button class="w-full py-3 px-6 text-sm font-black bg-white text-black rounded-full hover:bg-zinc-200 transition-all duration-200 active:scale-95" type="submit">Search</button>
             </form>
 
-            <hr class="my-8 border-cyan-900/50 relative">
+            <hr class="my-6 lg:my-8 border-zinc-800 relative">
 
-            <p class="font-black text-xs uppercase tracking-widest text-zinc-500 mb-6 mt-12 px-1">Categories</p>
-            <ul class="space-y-1">
+            <p class="font-black text-xs uppercase tracking-widest text-zinc-500 mb-6 px-1">Categories</p>
+            <ul class="flex flex-wrap lg:flex-col gap-2 lg:space-y-1">
                 {% for category in categories %}
                 <li class="rounded-full overflow-hidden transition-all duration-200">
-                    <a class="flex justify-between items-center py-3 px-5 text-zinc-400 font-bold hover:bg-zinc-900 hover:text-white transition-all duration-200 {% if category.id == category_id %} bg-[#1D9BF0]/10 text-[#1D9BF0] {% endif %}" href="{% url 'item:items' %}?query={{ query }}&category={{ category.id }}">
-                        <span>{{ category.name }}</span>
-                        <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-full text-zinc-500 group-hover:text-white">{{ category.available_item_count }}</span>
+                    <a class="flex justify-between items-center py-2 lg:py-3 px-4 lg:px-5 text-zinc-400 font-bold hover:bg-zinc-900 hover:text-white transition-all duration-200 {% if category.id == category_id %} bg-[#1D9BF0]/10 text-[#1D9BF0] {% endif %}" href="{% url 'item:items' %}?query={{ query }}&category={{ category.id }}">
+                        <span class="text-sm lg:text-base">{{ category.name }}</span>
+                        <span class="ml-2 text-[8px] lg:text-[10px] bg-zinc-800 px-2 py-0.5 rounded-full text-zinc-500 group-hover:text-white">{{ category.available_item_count }}</span>
                     </a>
                 </li>
                 {% endfor %}
             </ul>
 
-            <p class="font-black text-xs uppercase tracking-widest text-zinc-500 mb-6 mt-12 px-1">Reset</p>
-            <a class="block w-full text-center py-3 px-8 text-red-500 text-xs font-black uppercase tracking-widest bg-red-500/5 hover:bg-red-500/10 border border-red-900/30 rounded-full transition-all duration-200 active:scale-95" href="{% url 'item:items' %}">Clear Filters</a>
-
+            <div class="mt-8 pt-6 border-t border-zinc-900 lg:border-none lg:mt-12 lg:pt-0">
+                <a class="block w-full text-center py-3 px-8 text-red-500 text-[10px] font-black uppercase tracking-widest bg-red-500/5 hover:bg-red-500/10 border border-red-900/30 rounded-full transition-all duration-200 active:scale-95" href="{% url 'item:items' %}">Clear Filters</a>
+            </div>
         </div>
         <div class="col-span-1 md:col-span-3">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-l border-t border-zinc-800">
