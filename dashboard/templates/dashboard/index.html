@@ -17,11 +17,17 @@
           <img
             src="{{ item.image.url }}"
             alt="{{ item.name }}"
-            class="w-full h-64 object-cover scale-100 group-hover:scale-105 transition-transform duration-500"
+            class="w-full h-64 object-cover scale-100 group-hover:scale-105 transition-transform duration-500 {% if item.is_sold %}grayscale opacity-50{% endif %}"
           />
           {% else %}
           <div class="w-full h-64 bg-zinc-900 flex items-center justify-center">
             <span class="text-zinc-600 font-medium uppercase tracking-tighter">No Image</span>
+          </div>
+          {% endif %}
+          
+          {% if item.is_sold %}
+          <div class="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+            Sold
           </div>
           {% endif %}
         </div>

@@ -104,6 +104,9 @@ def stripe_webhook(request):
 
     return HttpResponse(status=200)
 
+from conversation.models import Conversation, ConversationMessage
+from django.contrib.auth.models import User
+
 def handle_checkout_session(session):
     user_id = session['metadata']['user_id']
     cart_id = session['metadata']['cart_id']
@@ -116,9 +119,27 @@ def handle_checkout_session(session):
         is_paid=True
     )
     
+    superuser = User.objects.filter(is_superuser=True).first()
+    
     for cart_item in cart.items.all():
         order.items.add(cart_item.item)
         cart_item.item.is_sold = True
         cart_item.item.save()
+        
+        # Send message to seller from superuser
+        if superuser:
+            # Look for an existing conversation between superuser and seller regarding this item
+            conversation = Conversation.objects.filter(item=cart_item.item).filter(members__id=superuser.id).filter(members__id=cart_item.item.created_by.id).first()
+            
+            if not conversation:
+                conversation = Conversation.objects.create(item=cart_item.item)
+                conversation.members.add(superuser)
+                conversation.members.add(cart_item.item.created_by)
+            
+            ConversationMessage.objects.create(
+                conversation=conversation,
+                content=f"Congratulations! Your item '{cart_item.item.name}' has been sold for ${cart_item.item.price}. Please check your dashboard for details and prepare the item for delivery.",
+                created_by=superuser
+            )
         
     cart.items.all().delete()
