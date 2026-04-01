@@ -91,7 +91,9 @@ WSGI_APPLICATION = 'market_place.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=env('DATABASE_URL')
+        default=env('DATABASE_URL'),
+        conn_max_age=600,  # Keep connections alive for 10 minutes
+        ssl_require=True
     )
 }
 
@@ -201,4 +203,3 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='')
 GROQ_API_KEY = env('GROQ_API_KEY', default='')
 # Fetch raw DATABASE_URL for LangChain
 DATABASE_URL = env.str('DATABASE_URL', default='')
-print(f"DEBUG: DATABASE_URL is '{DATABASE_URL}'")
