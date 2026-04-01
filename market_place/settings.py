@@ -199,3 +199,4 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='')
 
 # Groq API Settings
 GROQ_API_KEY = env('GROQ_API_KEY', default='')
+DATABASE_URL = env('DATABASE_URL', default='')
