@@ -6,6 +6,7 @@ from langchain_community.chat_message_histories import PostgresChatMessageHistor
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 import json
+import os
 
 def get_item_context():
     """Fetch active items and return a summarized string for the LLM."""
@@ -17,11 +18,21 @@ def get_item_context():
 
 def chat_response(request):
     if request.method == 'POST':
+        from dotenv import load_dotenv
+        from pathlib import Path
+        
+        # Optimize: ensure environment is ready before chain execution
+        db_url = getattr(settings, 'DATABASE_URL', '')
+        if not db_url.startswith('postgres'):
+             env_path = Path(settings.BASE_DIR) / '.env'
+             load_dotenv(dotenv_path=env_path, override=True)
+             db_url = os.environ.get('DATABASE_URL', '').replace('"', '')
+
         try:
             data = json.loads(request.body)
             user_message = data.get('message', '')
             
-            # Session-based session_id (use user_id if logged in, else session_key)
+            # Session-based session_id
             if request.user.is_authenticated:
                 session_id = f"user_{request.user.id}"
             else:
@@ -54,21 +65,12 @@ def chat_response(request):
             # 4. Chain with Memory
             chain = prompt | llm
 
-        # Optimize: ensure environment is ready before chain execution
-        db_url = getattr(settings, 'DATABASE_URL', '')
-        if not db_url.startswith('postgres'):
-             from dotenv import load_dotenv
-             from pathlib import Path
-             env_path = Path(settings.BASE_DIR) / '.env'
-             load_dotenv(dotenv_path=env_path, override=True)
-             db_url = os.environ.get('DATABASE_URL', '').replace('"', '')
-
-        def get_message_history(session_id: str):
-            return PostgresChatMessageHistory(
-                connection_string=db_url,
-                session_id=session_id,
-                table_name="chatbot_history"
-            )
+            def get_message_history(session_id: str):
+                return PostgresChatMessageHistory(
+                    connection_string=db_url,
+                    session_id=session_id,
+                    table_name="chatbot_history"
+                )
 
             chain_with_history = RunnableWithMessageHistory(
                 chain,
