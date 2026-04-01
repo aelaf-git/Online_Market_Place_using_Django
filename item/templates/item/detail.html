@@ -34,6 +34,8 @@
             {% else %}
                 <a href="{% url 'cart:add_to_cart' item.id %}" class="inline-block mt-8 md:mt-10 w-full text-center py-4 text-lg font-black bg-[#1D9BF0] text-white rounded-full hover:bg-[#1A8CD8] transition-all duration-200 active:scale-95 shadow-[0_0_50px_rgba(29,155,240,0.2)] uppercase tracking-widest">Add to Cart</a>
             {% endif %}
+            
+            <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-4 w-full text-center py-4 text-lg font-black bg-white text-black rounded-full hover:bg-zinc-200 transition-all duration-200 active:scale-95 uppercase tracking-widest">Contact Seller</a>
         {% endif %}
     </div>
 </div>
