@@ -47,5 +47,36 @@
     </div>
     {% endfor %}
   </div>
+
+  <!-- Pagination Controls -->
+  {% if items.has_other_pages %}
+  <div class="mt-16 flex justify-center items-center space-x-2">
+      {% if items.has_previous %}
+          <a href="?page={{ items.previous_page_number }}" class="p-3 rounded-full border border-zinc-800 text-zinc-400 hover:text-[#1D9BF0] hover:border-[#1D9BF0] transition-all duration-200 group">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+              </svg>
+          </a>
+      {% endif %}
+
+      <div class="flex items-center space-x-2">
+          {% for num in items.paginator.page_range %}
+              {% if items.number == num %}
+                  <span class="w-10 h-10 flex items-center justify-center rounded-full bg-[#1D9BF0] text-white font-black text-sm shadow-[0_0_20px_rgba(29,155,240,0.3)]">{{ num }}</span>
+              {% elif num > items.number|add:'-3' and num < items.number|add:'3' %}
+                  <a href="?page={{ num }}" class="w-10 h-10 flex items-center justify-center rounded-full border border-zinc-800 text-zinc-500 hover:text-white hover:border-zinc-700 transition-all duration-200 font-bold text-sm">{{ num }}</a>
+              {% endif %}
+          {% endfor %}
+      </div>
+
+      {% if items.has_next %}
+          <a href="?page={{ items.next_page_number }}" class="p-3 rounded-full border border-zinc-800 text-zinc-400 hover:text-[#1D9BF0] hover:border-[#1D9BF0] transition-all duration-200 group">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+          </a>
+      {% endif %}
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

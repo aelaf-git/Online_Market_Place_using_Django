@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 
 # core/views.py
 from item.models import Category, Item
@@ -14,10 +15,16 @@ import base64
 # Create your views here.
 
 def index(request):
-    items = Item.objects.filter(is_sold=False).order_by('-created_at')[:10]
+    item_list = Item.objects.filter(is_sold=False).order_by('-created_at')
+    paginator = Paginator(item_list, 6) # Show 6 items per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     categories = Category.objects.all()
+    
     return render(request, 'core/index.html', {
-        'items': items,
+        'items': page_obj,
         'categories': categories,
     })
 
