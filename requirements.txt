@@ -19,3 +19,4 @@ stripe
 # Additional planned dependencies
 psycopg2-binary
 python-dotenv
+openai
