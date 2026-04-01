@@ -23,4 +23,5 @@ langchain-community
 
 # Additional planned dependencies
 psycopg2-binary
+psycopg[binary,pool]
 python-dotenv

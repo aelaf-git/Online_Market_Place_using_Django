@@ -55,8 +55,25 @@ def chat_response(request):
             chain = prompt | llm
 
             def get_message_history(session_id: str):
+                import os
+                from dotenv import load_dotenv
+                from pathlib import Path
+                
+                # Force re-load .env to get the latest DATABASE_URL
+                env_path = Path(settings.BASE_DIR) / '.env'
+                load_dotenv(dotenv_path=env_path, override=True)
+                
+                db_url = os.environ.get('DATABASE_URL', '').replace('"', '')
+                
+                # If still not found or not postgres, try to parse from DATABASES['default']
+                if not db_url.startswith('postgres'):
+                    # This is a last resort to see what Django is actually using
+                    db_url = settings.DATABASES['default'].get('NAME', '')
+                    if not str(db_url).startswith('postgres'):
+                         raise ValueError(f"AI Assistant requires a Postgres database. Found: {db_url}")
+
                 return PostgresChatMessageHistory(
-                    connection_string=settings.DATABASE_URL,
+                    connection_string=db_url,
                     session_id=session_id,
                     table_name="chatbot_history"
                 )
