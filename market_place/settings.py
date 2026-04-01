@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from environ import Env
+import dj_database_url
 
 env = Env()
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'dashboard',
     'item',
     'cart',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -88,10 +90,9 @@ WSGI_APPLICATION = 'market_place.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    )
 }
 
 
@@ -195,3 +196,6 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY', default='')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='')
+
+# Groq API Settings
+GROQ_API_KEY = env('GROQ_API_KEY', default='')

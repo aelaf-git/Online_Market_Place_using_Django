@@ -169,5 +169,116 @@
             .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
             .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #444; }
         </style>
+
+        <!-- AI Shopping Assistant -->
+        <div id="chat-widget" class="fixed bottom-6 right-6 z-[100]">
+            <button id="chat-toggle" class="w-14 h-14 bg-[#1D9BF0] text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform duration-200 group focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                </svg>
+            </button>
+
+            <div id="chat-window" class="hidden absolute bottom-20 right-0 w-[350px] md:w-[400px] h-[500px] bg-black border border-zinc-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden slide-up">
+                <div class="p-4 border-b border-zinc-800 bg-zinc-900/50 flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-[#1D9BF0] rounded-full flex items-center justify-center text-white font-black text-xs">AI</div>
+                        <span class="font-black text-sm uppercase tracking-widest text-[#1D9BF0]">Assistant</span>
+                    </div>
+                </div>
+                <div id="chat-messages" class="flex-grow p-4 space-y-4 overflow-y-auto custom-scrollbar bg-black/50">
+                    <div class="bg-zinc-900 border border-zinc-800 p-3 rounded-2xl rounded-tl-none max-w-[85%]">
+                        <p class="text-sm text-zinc-300 leading-relaxed">Hello! I'm your AELAF MART assistant. How can I help you find something today?</p>
+                    </div>
+                </div>
+                <div class="p-4 border-t border-zinc-800 bg-zinc-900/30">
+                    <form id="chat-form" class="flex space-x-2">
+                        <input type="text" id="chat-input" placeholder="Ask about items..." class="flex-grow bg-black border border-zinc-800 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-[#1D9BF0] text-white">
+                        <button type="submit" class="bg-[#1D9BF0] text-white p-2 rounded-full hover:bg-[#1A8CD8] transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const chatToggle = document.getElementById('chat-toggle');
+                const chatWindow = document.getElementById('chat-window');
+                const chatForm = document.getElementById('chat-form');
+                const chatInput = document.getElementById('chat-input');
+                const chatMessages = document.getElementById('chat-messages');
+
+                if (chatToggle) {
+                    chatToggle.addEventListener('click', () => {
+                        chatWindow.classList.toggle('hidden');
+                        if (!chatWindow.classList.contains('hidden')) {
+                            chatInput.focus();
+                        }
+                    });
+                }
+
+                if (chatForm) {
+                    chatForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const text = chatInput.value.trim();
+                        if (!text) return;
+
+                        addMessage(text, 'user');
+                        chatInput.value = '';
+
+                        const typingDiv = document.createElement('div');
+                        typingDiv.className = 'bg-zinc-900 border border-zinc-800 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm text-zinc-500 animate-pulse';
+                        typingDiv.textContent = 'Assistant is typing...';
+                        chatMessages.appendChild(typingDiv);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                        try {
+                            const response = await fetch('/chatbot/chat/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                },
+                                body: JSON.stringify({ message: text })
+                            });
+                            const data = await response.json();
+                            
+                            typingDiv.remove();
+                            if (data.response) {
+                                addMessage(data.response, 'ai');
+                            } else if (data.error) {
+                                addMessage('Error: ' + data.error, 'ai');
+                            }
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        } catch (err) {
+                            typingDiv.remove();
+                            addMessage('Connection error. Please try again.', 'ai');
+                        }
+                    });
+                }
+
+                function addMessage(text, sender) {
+                    const div = document.createElement('div');
+                    div.className = sender === 'user' 
+                        ? 'bg-[#1D9BF0] text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] ml-auto text-sm font-medium whitespace-pre-wrap'
+                        : 'bg-zinc-900 border border-zinc-800 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap';
+                    div.textContent = text;
+                    chatMessages.appendChild(div);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    return div;
+                }
+            });
+        </script>
+        
+        <style>
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .slide-up { animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        </style>
     </body>
 </html>

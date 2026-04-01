@@ -15,8 +15,12 @@ requests==2.32.5
 sqlparse==0.5.5
 urllib3==2.6.3
 stripe
+dj-database-url
+groq
+langchain
+langchain-groq
+langchain-community
 
 # Additional planned dependencies
 psycopg2-binary
 python-dotenv
-openai
