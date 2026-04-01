@@ -35,6 +35,11 @@
                         <a href="{% url 'conversation:inbox' %}" class="px-5 py-2 text-sm font-black border border-zinc-800 text-white rounded-full hover:bg-zinc-900 transition-all duration-200">Messages</a>
                         <a href="{% url 'dashboard:index' %}" class="px-5 py-2 text-sm font-black border border-zinc-800 text-white rounded-full hover:bg-zinc-900 transition-all duration-200">Dashboard</a>
                         
+                        <form method="post" action="{% url 'core:logout' %}" class="inline-block m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="px-5 py-2 text-sm font-black border border-zinc-800 text-red-500 rounded-full hover:bg-zinc-900 transition-all duration-200">Log Out</button>
+                        </form>
+                        
                         <a href="{% url 'core:settings' %}" class="flex items-center space-x-3 ml-4 border-l border-zinc-800 pl-4 group">
                             <span class="text-sm font-bold text-zinc-400 group-hover:text-white transition-colors">{{ request.user.username }}</span>
                             {% if request.user.profile.image %}
