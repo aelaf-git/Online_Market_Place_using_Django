@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'market_place.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=env('DATABASE_URL'),
-        conn_max_age=600,  # Keep connections alive for 10 minutes
-        ssl_require=True
+        default=env('DATABASE_URL', default='sqlite:///db.sqlite3'),
+        conn_max_age=600,
+        ssl_require=env.bool('DB_SSL_REQUIRE', default=False)
     )
 }
 

@@ -2,8 +2,8 @@
 FROM python:3.13-slim
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Set work directory
 WORKDIR /app
@@ -15,18 +15,18 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
+# Install Python dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project
 COPY . /app/
 
-# Run collectstatic
-RUN python manage.py collectstatic --noinput
+# Make entrypoint executable
+RUN chmod +x /app/entrypoint.sh
 
-# Expose port 8000
+# Expose port
 EXPOSE 8000
 
-# Start Gunicorn
-CMD ["gunicorn", "market_place.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Run entrypoint at container start (env vars are available here)
+CMD ["/app/entrypoint.sh"]
