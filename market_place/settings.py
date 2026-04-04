@@ -21,7 +21,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-gvxdc8%l-)ecplb)b!1fwp84
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
