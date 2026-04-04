@@ -8,4 +8,4 @@ echo "==> Collecting static files..."
 python manage.py collectstatic --noinput
 
 echo "==> Starting Gunicorn..."
-exec gunicorn market_place.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2
+exec gunicorn market_place.wsgi:application --bind 0.0.0.0:${PORT:-10000} --workers 1

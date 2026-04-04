@@ -5,10 +5,9 @@ services:
     plan: free
     dockerContext: .
     dockerfilePath: Dockerfile
-    healthCheckPath: /
     envVars:
       - key: PORT
-        value: "8000"
+        value: "10000"
       - key: DEBUG
         value: "False"
       - key: DJANGO_ALLOWED_HOSTS
