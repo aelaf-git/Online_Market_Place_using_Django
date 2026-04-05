@@ -142,7 +142,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Media files configuration
+# Media files configuration (Cloudinary-only)
+# Local MEDIA_URL and MEDIA_ROOT are kept as placeholders but NOT served locally.
+# All media is handled by django-cloudinary-storage.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -167,9 +169,15 @@ cloudinary.config(
     secure=True
 )
 
-# Storage configuration (Mandatory Cloudinary for Media)
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# Modern Django 4.2+ Storage configuration
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # WhiteNoise settings
 WHITENOISE_MANIFEST_STRICT = False

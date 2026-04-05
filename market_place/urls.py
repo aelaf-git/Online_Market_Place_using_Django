@@ -13,4 +13,4 @@ urlpatterns = [
     path('dashboard/', include(('dashboard.urls', 'dashboard'), namespace='dashboard')),
     path('accounts/', include('allauth.urls')),
     path('chatbot/', include('chatbot.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] # No static(settings.MEDIA_URL, ...) because we use Cloudinary
