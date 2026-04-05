@@ -20,7 +20,22 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
     if hasattr(instance, 'profile'):
         instance.profile.save()
+
+class SiteConfiguration(models.Model):
+    site_name = models.CharField(max_length=255, default='AELAF MART')
+    logo = models.ImageField(upload_to='site_branding/', blank=True, null=True)
+    favicon = models.ImageField(upload_to='site_branding/', blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Site Configuration'
+
+    def __str__(self):
+        return self.site_name
+
+    def save(self, *args, **kwargs):
+        # Ensure only one instance of SiteConfiguration exists
+        if not self.pk and SiteConfiguration.objects.exists():
+            return
+        super(SiteConfiguration, self).save(*args, **kwargs)
