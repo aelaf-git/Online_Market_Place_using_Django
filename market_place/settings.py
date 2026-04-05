@@ -145,13 +145,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Cloudinary credentials from environment
+# Cloudinary settings
+USE_CLOUDINARY = env.bool('USE_CLOUDINARY', default=False)
 CLOUDINARY_CLOUD_NAME = env('CLOUDINARY_CLOUD_NAME', default='')
 CLOUDINARY_API_KEY = env('CLOUDINARY_API_KEY', default='')
 CLOUDINARY_API_SECRET = env('CLOUDINARY_API_SECRET', default='')
 
-# Use Cloudinary if all credentials are present (Mandatory for persistence on Render)
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+# Use Cloudinary if the toggle is set and all credentials are present
+if USE_CLOUDINARY and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
     CLOUDINARY_STORAGE = {
         'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
@@ -161,7 +162,10 @@ if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     print("[Storage] Using Cloudinary for Media")
 else:
     DEFAULT_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
-    print("[Storage] Using Local Storage for Media")
+    if USE_CLOUDINARY:
+        print("[Storage] USE_CLOUDINARY is True but credentials are missing. Falling back to local.")
+    else:
+        print("[Storage] Using Local Storage for Media")
 
 # Modern Django 4.2+ Storage configuration
 STORAGES = {
@@ -172,6 +176,10 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# Redundant settings for backward compatibility with older third-party apps (e.g. django-cloudinary-storage)
+DEFAULT_FILE_STORAGE = STORAGES["default"]["BACKEND"]
+STATICFILES_STORAGE = STORAGES["staticfiles"]["BACKEND"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
