@@ -20,9 +20,15 @@
                     <div class="px-5 py-3 rounded-2xl max-w-[80%] shadow-lg {% if message.created_by == request.user %}bg-[#1D9BF0] text-white rounded-br-none{% else %}bg-zinc-900 text-white border border-zinc-800 rounded-bl-none{% endif %}">
                         <p class="leading-relaxed font-medium">{{ message.content }}</p>
                     </div>
-                    <span class="text-[10px] font-black text-zinc-500 uppercase tracking-widest mt-1 px-1">
-                        {{ message.created_at|date:"H:i" }}
-                    </span>
+                    <div class="flex items-center space-x-2 mt-1 px-1">
+                        <span class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                            {{ message.created_at|date:"H:i" }}
+                        </span>
+                        {% if message.created_by == request.user %}
+                            <span class="text-zinc-700">•</span>
+                            <a href="{% url 'conversation:delete_message' message.id %}" class="text-[10px] font-black text-red-900 hover:text-red-500 uppercase tracking-widest transition-colors duration-200" onclick="return confirm('Delete this message?')">Delete</a>
+                        {% endif %}
+                    </div>
                 </div>
         {% endfor %}
     </div>

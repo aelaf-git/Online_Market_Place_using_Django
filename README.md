@@ -1,5 +1,7 @@
 # AI-Powered Online Marketplace (AELAF MART)
 
+🚀 **Live Demo: [https://aelaf-mart.onrender.com/](https://aelaf-mart.onrender.com/)**
+
 A high-performance, futuristic e-commerce platform built with **Django 6.0**, **Tailwind CSS**, and **PostgreSQL (Neon)**. AELAF MART features an advanced **AI Shopping Assistant** powered by **LangChain** and **Groq (Llama 3.3)**, providing real-time inventory-aware recommendations and persistent conversation memory.
 
 ## Table of Contents
@@ -48,13 +50,15 @@ graph TD
     LangChain -->|History| Postgres
     Django -->|Stripe API| Stripe((Stripe Payments))
     Django -->|OAuth| Google((Google Auth))
+    Django -->|Media Storage| Cloudinary((Cloudinary Storage))
+    Django -->|Static Delivery| WhiteNoise[WhiteNoise]
 ```
 
 ### Core Data Models
 
-- **Item**: Name, description, price, category, status (is_sold), and media.
-- **Profile**: Extends user data with bio, phone, and cropped avatars.
-- **PostgresChatMessageHistory**: Stores AI conversation logs in a dedicated Postgres table.
+- **Item**: Name, description, price, category, status (is_sold), and Cloudinary-backed media.
+- **Profile**: User-specific data including bio, phone, and Cloudinary-hosted avatars.
+- **SiteConfiguration**: Dynamic brand management (Logo, Favicon, Site Name) via Admin.
 - **Order**: Tracks Stripe payment intents and transaction status.
 
 ## Tech Stack
@@ -62,10 +66,10 @@ graph TD
 - **Backend**: Django 6.0.2 & Python 3.10+
 - **AI Engine**: LangChain & Groq (Llama-3.3-70b-versatile)
 - **Database**: PostgreSQL (Neon Cloud)
-- **Cache/Broker**: Redis (Session & Background processing ready)
+- **Media Storage**: **Cloudinary** (Persistent & Optimized)
+- **Static Delivery**: **WhiteNoise** (Edge-ready assets)
 - **Payments**: Stripe API
 - **Styling**: Tailwind CSS (Modern Glassmorphic UI)
-- **Image handling**: Pillow & Cropper.js
 - **Auth**: django-allauth & Google OAuth
 
 ## Getting Started

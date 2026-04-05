@@ -1,9 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from item.models import Item
-from .models import Conversation
+from .models import Conversation, ConversationMessage
 from .forms import ConversationMessageForm
 from django.contrib.auth.decorators import login_required
+
+@login_required
+def delete_message(request, pk):
+    message = get_object_or_404(ConversationMessage, pk=pk, created_by=request.user)
+    conversation_id = message.conversation.id
+    message.delete()
+    return redirect('conversation:detail', pk=conversation_id)
 
 @login_required
 def new_conversation(request, item_pk):
