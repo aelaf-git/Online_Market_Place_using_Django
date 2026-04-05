@@ -26,7 +26,7 @@ ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
-
+import cloudinary_storage
 
 # Application definition
 
@@ -146,32 +146,30 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Cloudinary settings
-# Default to True in production (DEBUG=False) if credentials are provided
-USE_CLOUDINARY = env.bool('USE_CLOUDINARY', default=not DEBUG)
 CLOUDINARY_CLOUD_NAME = env('CLOUDINARY_CLOUD_NAME', default='')
 CLOUDINARY_API_KEY = env('CLOUDINARY_API_KEY', default='')
 CLOUDINARY_API_SECRET = env('CLOUDINARY_API_SECRET', default='')
 
-# Use Cloudinary if the toggle is set and all credentials are present
-if USE_CLOUDINARY and CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
-    DEFAULT_STORAGE_BACKEND = "cloudinary_storage.storage.MediaCloudinaryStorage"
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
-        'API_KEY': CLOUDINARY_API_KEY,
-        'API_SECRET': CLOUDINARY_API_SECRET,
-    }
-    print("[Storage] Using Cloudinary for Media")
-else:
-    DEFAULT_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
-    if USE_CLOUDINARY:
-        print("[Storage] USE_CLOUDINARY is True but credentials are missing. Falling back to local.")
-    else:
-        print("[Storage] Using Local Storage for Media")
+import cloudinary
 
-# Modern Django 4.2+ Storage configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+    'API_KEY': CLOUDINARY_API_KEY,
+    'API_SECRET': CLOUDINARY_API_SECRET,
+}
+
+# Explicit initialization for bare Cloudinary library (as per documentation)
+cloudinary.config(
+    cloud_name=CLOUDINARY_CLOUD_NAME,
+    api_key=CLOUDINARY_API_KEY,
+    api_secret=CLOUDINARY_API_SECRET,
+    secure=True
+)
+
+# Mandatory Cloudinary Storage configuration
 STORAGES = {
     "default": {
-        "BACKEND": DEFAULT_STORAGE_BACKEND,
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
