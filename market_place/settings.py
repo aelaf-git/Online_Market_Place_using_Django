@@ -168,7 +168,7 @@ cloudinary.config(
 
 # Storage configuration (Mandatory Cloudinary for Media)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # WhiteNoise settings
 WHITENOISE_MANIFEST_STRICT = False
