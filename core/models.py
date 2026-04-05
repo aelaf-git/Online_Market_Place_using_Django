@@ -24,23 +24,3 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     if hasattr(instance, 'profile'):
         instance.profile.save()
-
-class EmailVerification(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='email_verification')
-    code = models.CharField(max_length=8)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Verification code for {self.user.email}"
-
-    def is_expired(self):
-        return timezone.now() > self.created_at + timedelta(minutes=5)
-
-    @classmethod
-    def generate_code(cls, user):
-        code = ''.join([str(random.randint(0, 9)) for _ in range(8)])
-        verification, created = cls.objects.get_or_create(user=user)
-        verification.code = code
-        verification.created_at = timezone.now()
-        verification.save()
-        return code

@@ -21,7 +21,6 @@ A high-performance, futuristic e-commerce platform built with **Django 6.0**, **
 
 ### 2. Advanced Authentication & Security (`core` app)
 
-- **8-Digit Email Verification**: Mandatory secure verification flow for all new accounts with timed OTP codes.
 - **Social Login**: Integrated **Google OAuth 2.0** via `django-allauth` for seamless onboarding.
 - **Custom Adapters**: Intelligent account linking for users with existing emails.
 
