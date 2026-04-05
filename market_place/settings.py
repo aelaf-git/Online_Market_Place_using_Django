@@ -146,7 +146,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Cloudinary settings
-USE_CLOUDINARY = env.bool('USE_CLOUDINARY', default=False)
+# Default to True in production (DEBUG=False) if credentials are provided
+USE_CLOUDINARY = env.bool('USE_CLOUDINARY', default=not DEBUG)
 CLOUDINARY_CLOUD_NAME = env('CLOUDINARY_CLOUD_NAME', default='')
 CLOUDINARY_API_KEY = env('CLOUDINARY_API_KEY', default='')
 CLOUDINARY_API_SECRET = env('CLOUDINARY_API_SECRET', default='')
@@ -176,6 +177,9 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# WhiteNoise settings
+WHITENOISE_MANIFEST_STRICT = False
 
 # Redundant settings for backward compatibility with older third-party apps (e.g. django-cloudinary-storage)
 DEFAULT_FILE_STORAGE = STORAGES["default"]["BACKEND"]
